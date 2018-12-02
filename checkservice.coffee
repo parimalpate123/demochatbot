@@ -10,7 +10,7 @@ module.exports = (robot) ->
      .get() (err, msg, body) ->
      	#res.reply "#{msg.statusCode}"
      	if msg is null
-     		res.reply "page not found"
+     		res.reply "Oops...page not found! Do you want to start the service? If so, reply start #{serviceurl}"
      	else if msg isnt null
      		switch msg.statusCode
      			when 200
@@ -25,3 +25,16 @@ module.exports = (robot) ->
      				res.reply " The service returned gateway timeout"
      			else
      				res.reply "Unable to process your request"
+     				
+    robot.respond /start (.*)$/i, (res) ->
+     serviceurl = res.match[1]
+     res.reply "Service #{serviceurl}"
+    
+     @exec = require('child_process').exec
+     command = "pwd"
+     res.send "Starting service..."
+     #msg.send "This is the command #{command}."
+     @exec command, (error, stdout, stderr) ->
+     	res.send error
+     	res.send stdout
+     	res.send stderr
