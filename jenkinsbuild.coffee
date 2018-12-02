@@ -18,15 +18,21 @@ module.exports = (robot) ->
 				msg.reply "Jenkins says: Status #{res.statusCode} #{body}"
 
 #Trigger Jenkins job w/ parameters
+	robot.hear /deploy/i, (msg) ->
+		msg.reply "Correct Syntax is : deploy [AppName] [EnvironmentName]"
+
+	robot.hear /deploy (.*)/i, (msg) ->
+		msg.reply "Build not found, double check if AppName and EnvironmentName are spelt correctly"
+		msg.reply "Correct Syntax is : deploy [AppName] [EnvironmentName]"
 
 	
 	robot.hear /deploy (.*) (.*)/i, (msg) ->
 #		url="http://localhost:8080/job/"+msg.match[1]+
 #		"/buildWithParameters?token=remote_enable_token&"+msg.match[2]+"="+msg.match[3]
-		url="http://localhost:8080/job/"+msg.match[1]+
-		"/buildWithParameters?Environment="+msg.match[2]
-		joburl="http://localhost:8080/job/"+msg.match[1]
-		if msg.match[2]!=""
+		try
+			url="http://localhost:8080/job/"+msg.match[1]+
+			"/buildWithParameters?Environment="+msg.match[2]
+			joburl="http://localhost:8080/job/"+msg.match[1]
 			msg.http(url)
 			.get() (err, res, body) ->
 				if err
@@ -42,5 +48,7 @@ module.exports = (robot) ->
 					msg.reply "Please provide valid AppName and EnvironmentName"
 				else
 					msg.reply "Jenkins says: Status #{res.statusCode} #{body}"
-		else
-			msg.reply "Please provide 2 parameters"
+		catch error
+			msg.send error
+	
+

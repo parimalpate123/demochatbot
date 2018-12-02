@@ -4,7 +4,8 @@
 module.exports = (robot) ->
 
    robot.hear /check service (.*)/i, (res) ->
-     serviceurl = "https://www." + res.match[1] + ".com/"
+     #serviceurl = "https://www." + res.match[1] + ".com/"
+     serviceurl = res.match[1]
      res.http(serviceurl)
      .get() (err, msg, body) ->
      	#res.reply "#{msg.statusCode}"
