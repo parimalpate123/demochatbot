@@ -31,7 +31,7 @@ module.exports = (robot) ->
      res.reply "Service #{serviceurl}"
     
      @exec = require('child_process').exec
-     command = "pwd"
+     command = "sh runweatherapp.sh"
      res.send "Starting service..."
      #msg.send "This is the command #{command}."
      @exec command, (error, stdout, stderr) ->

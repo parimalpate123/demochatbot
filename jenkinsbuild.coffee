@@ -2,7 +2,7 @@
 
 module.exports = (robot) ->
 
-	robot.hear /jenkins deploy (.*)/i, (msg) ->
+	robot.hear /start pipeline (.*)/i, (msg) ->
 		url="http://localhost:8080/job/"+msg.match[1]+"/build?token=remote_enable_token"
 		joburl="http://localhost:8080/job/"+msg.match[1]
 		msg.http(url)
@@ -22,10 +22,10 @@ module.exports = (robot) ->
 		msg.reply "Correct Syntax is : deploy [AppName] [EnvironmentName]"
 
 	robot.hear /deploy (.*)/i, (msg) ->
+	
 		msg.reply "Build not found, double check if AppName and EnvironmentName are spelt correctly"
 		msg.reply "Correct Syntax is : deploy [AppName] [EnvironmentName]"
 
-	
 	robot.hear /deploy (.*) (.*)/i, (msg) ->
 #		url="http://localhost:8080/job/"+msg.match[1]+
 #		"/buildWithParameters?token=remote_enable_token&"+msg.match[2]+"="+msg.match[3]
