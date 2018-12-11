@@ -27,9 +27,9 @@ module.exports = (robot) ->
 			"/buildWithParameters?Environment="+msg.match[2]
 			joburl="http://localhost:8080/job/"+msg.match[1]
 			if msg.match[2] == "PROD"
-				msg.reply "Access validation: You are authorized for PROD deployment, please contact Release Management team"
+				msg.reply "Access validation: You are NOT authorized for PROD deployment, please contact Release Management team"
 			else if msg.match[2] == "MO"
-				msg.reply "Access validation: You are authorized for MO deployment, please contact Release Management team"
+				msg.reply "Access validation: You are NOT authorized for MO deployment, please contact Release Management team"
 			else
 				msg.http(url)
 				.get() (err, res, body) ->
